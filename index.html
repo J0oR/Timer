@@ -1,0 +1,53 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/de18f9756a.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        
+        
+
+        <button class="btn restart-btn">
+            <i class="fa-solid fa-arrow-rotate-left"></i>
+        </button>
+
+        <div class="timer outer">
+            <div class="timer inner">
+                <div class="time-display"></div>
+                <button class="btn play">
+                    <i class="fa-solid fa-play"></i>
+                </button>
+            </div>
+            <svg viewBox="0 0 200 200" class="progress-bar-svg">
+                <circle cx="100" cy="100" r="90"></circle>
+            </svg>
+        </div>
+
+        <div class="time-buttons">
+            <button class="btn less">
+                <i class="fa-solid fa-minus"></i>
+            </button>
+            <button class="btn more">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+
+        <div class="timer-controls">
+            <input type="range" id="time-slider" min="1" max="60" value="15">
+        </div>
+    </div>
+
+    
+</body>
+
+</html>
