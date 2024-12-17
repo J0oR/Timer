@@ -12,6 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     display: flex;
+    background-color: #b2ebf2;
 }
 
 .app-container {
@@ -20,7 +21,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 50px;
 }
 
 /* restart-button */
@@ -41,40 +42,41 @@ body {
 }
 
 .inner {
-    width: 160px;
-    height: 160px;
+    background-color: #b2ebf2;
+    width: 240px;
+    height: 240px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
-        -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
-        -0.5px -0.5px 0px rgba(255, 255, 255, 1),
         0.5px 0.5px 0px rgba(0, 0, 0, 0.15),
         0px 12px 10px -10px rgba(0, 0, 0, 0.05);
 }
 
 .outer {
-    width: 200px;
-    height: 200px;
-    box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
-        -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
+    background-color: #85b4b0;
+    width: 300px;
+    height: 300px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px 2px;
     position: relative;
 }
 
 
-.timer-buttons-container{
+.timer-buttons-container {
+    margin-top: 20px;
     display: flex;
     justify-content: space-around;
-    width: 100px;
+    width: 150px;
 }
 
 
 
-.timer-btn{
-    width: 30px;
-    height: 30px;
+.timer-btn {
+    width: 40px;
+    height: 40px;
     z-index: 10;
+    font-size: 1.2rem;
     border-radius: 50px;
     display: flex;
     justify-content: center;
@@ -88,8 +90,8 @@ body {
     position: absolute;
     left: 0;
     top: 0;
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
 }
 
 
@@ -100,74 +102,42 @@ circle {
     stroke-linecap: round;
     stroke-dasharray: 570;
     stroke-dashoffset: 24;
-    animation: anim 2s linear forwards;
 }
 
-/* @keyframes anim{
-    100%{
-        stroke-dashoffset: 157.5;
+.animated {
+    animation: anim 1s ease-in-out;
+  }
+
+@keyframes anim {
+    100% {
+        stroke-dashoffset: 0;
     }
-    0%{
+
+    0% {
         stroke-dashoffset: 570;
     }
-    /* 75%{
-        stroke-dashoffset: 570 - 570 * 0.75;
-    }
-    50%{
-        stroke-dashoffset: 570 - 570 * 0.5;
-    }
-    25%{
-        stroke-dashoffset: 570 - 570 * 0.25;
-    }
-    0%{
-        stroke-dashoffset: 570 - 570 * 0;
-    } 
-*/
+}
 
 
 /* time disply */
 
 .time-display {
-    font-size: 2.5rem;
+    margin-top: 25%;
+    font-size: 3.5rem;
 }
 
 
 
 /* + - buttons */
 
-.time-buttons {
+
+.slider-wrapper {
     display: flex;
-    justify-content: space-around;
     position: relative;
     width: 300px;
 }
 
-.less,
-.more {
-    /* width: 50px; */
-    /* height: 50px; */
-    font-size: 2.5rem;
-}
-
-.less {
-    border-top-left-radius: 1rem;
-    /* Top-left corner rounded */
-    border-bottom-left-radius: 1rem;
-    /* Bottom-left corner rounded */
-}
-
-.more {
-    border-top-right-radius: 1rem;
-    /* Top-left corner rounded */
-    border-bottom-right-radius: 1rem;
-    /* Bottom-left corner rounded */
-}
-
-/* slider */
-
-
-
-.btn {
+.slider-btn {
     width: 30px;
     height: 3rem;
     display: flex;
@@ -175,12 +145,27 @@ circle {
     align-items: center;
     font-size: 1rem;
     border: none;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     transition: all 0.1s ease-in-out;
+    border: 1px solid black;
+    cursor: pointer;
 }
 
 .btn:active {
     box-shadow: none;
+}
+
+.less {
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 10px 5px 5px -2px;
+}
+
+.more {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px -2px;
+
+
 }
 
 /*********** Baseline Styles ***********/
@@ -190,38 +175,53 @@ input[type="range"] {
     width: 100%;
     height: 3rem;
     /* Track height */
-    background: #add8e6;
     /* Make sure track color is visible */
     cursor: pointer;
     outline: none;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background: #add8e6;
+    background-image: repeating-linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.2) calc((100% / 13) - 1px)
+    );
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    box-shadow: rgba(0, 0, 0, 0.35) 5px 5px 5px -2px;
+
 }
 
 /*********** Track Styles ***********/
 input[type="range"]::-webkit-slider-runnable-track,
 input[type="range"]::-moz-range-track {
-    height: 100%;
+    height: 30px;
+    /* background: #add8e6;  */
     background: #add8e6;
-    /* Base background color */
     background-image: repeating-linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.2),
-    rgba(255, 255, 255, 0.2) calc(7.692% - 1px), /* Adjust for 13 intervals */
-    #05051a 7.692%
-);
-
+        to right,
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.2) calc((100% / 13) - 1px), /* Adjust for 13 intervals */
+        #05051a calc(100% / 13)
+    );
+    background-size: 251px; /* Prevent last line */
+    background-repeat: no-repeat;
 }
+
 
 /*********** Thumb Styles ***********/
 input[type="range"]::-webkit-slider-thumb,
 input[type="range"]::-moz-range-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 18px; /* Narrower thumb */
-    height: 4rem; /* Maintain the same height as before */
-    background-color: rgba(255, 255, 255, 1); /* Darker color similar to step lines */
-    border-radius: 0; /* Remove the roundness */
-    margin-top: -7px; /* Vertically centers thumb */
+    width: 18px;
+    /* Narrower thumb */
+    height: 4rem;
+    /* Maintain the same height as before */
+    background-color: rgba(255, 255, 255, 1);
+    /* Darker color similar to step lines */
+    border-radius: 10px;
+    /* Remove the roundness */
+    margin-top: -7px;
+    /* Vertically centers thumb */
     outline: 1px solid #808080;
 }
 

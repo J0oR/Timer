@@ -1,9 +1,10 @@
 class Timer {
-    constructor(timeDisplay, progressCircle, sliderValueDisplay) {
+    constructor(timeDisplay, progressCircle, slider) {
         this.timeDisplay = timeDisplay;
         this.progressCircle = progressCircle;
         this.clearInterval();
-        this.sliderValueDisplay = sliderValueDisplay;
+        this.slider = slider;
+        this.slider.value = this.startingMinutes;
         this.setDefaultTime(30); // Set default time once during initialization
         this.updateDisplay();
     }
@@ -14,8 +15,8 @@ class Timer {
         this.startingMinutes = minutes;
         this.minutes = minutes;
         this.seconds = 0;
-       
-       
+
+
     }
 
     clearInterval() {
@@ -54,12 +55,13 @@ class Timer {
     }
 
     increase() {
-        this.startingMinutes++;
-        this.clearInterval();
-        this.setDefaultTime(this.startingMinutes);
-        this.updateDisplay(); // Update the display
-        this.sliderValueDisplay.value = this.startingMinutes;
-
+        if (this.minutes < 60) {
+            this.startingMinutes++;
+            this.clearInterval();
+            this.setDefaultTime(this.startingMinutes);
+            this.updateDisplay(); // Update the display
+            this.slider.value = this.startingMinutes;
+        }
     }
     decrease() {
         if (this.minutes > 0) {
@@ -67,7 +69,7 @@ class Timer {
             this.clearInterval();
             this.setDefaultTime(this.startingMinutes);
             this.updateDisplay(); // Update the display
-            this.sliderValueDisplay.value = this.startingMinutes;
+            this.slider.value = this.startingMinutes;
         }
     }
 
@@ -107,10 +109,12 @@ class Timer {
 
 
 document.addEventListener("DOMContentLoaded", function () {
+    
 
 
     // Select all buttons within the .fast-selectors container
     const fastButtons = document.querySelectorAll('.fast-selectors button');
+    const circle = document.querySelector('circle');
     const playButton = document.querySelector('.play');
     const restartButton = document.querySelector('.restart-btn');
     const increaseButton = document.querySelector('.more');
@@ -118,7 +122,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const timeDisplay = document.querySelector('.time-display');
     const progressCircle = document.querySelector('.progress-bar-svg > circle'); // Adjust this to match your SVG structure
     const slider = document.querySelector('.time-slider'); // Select the slider
-    const sliderValueDisplay = document.querySelector('#slider-value'); // Element to display the slider value
 
 
     console.log(progressCircle);
@@ -129,10 +132,17 @@ document.addEventListener("DOMContentLoaded", function () {
     playButton.addEventListener('click', () => {
         timerInstance.start();
     })
-    
+
     restartButton.addEventListener('click', () => {
         timerInstance.resetTimer();
+        circle.classList.add("animated");
+
     })
+
+    circle.addEventListener('animationend', function () {
+        circle.classList.remove("animated");
+    });
+
 
     increaseButton.addEventListener('click', () => {
         console.log("yo");
@@ -143,13 +153,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-      // Update the timer when the slider value changes
+    // Update the timer when the slider value changes
     slider.addEventListener('input', () => {
         const sliderValue = slider.value;
-        
+
         timerInstance.clearInterval();
-             timerInstance.setDefaultTime(Number(sliderValue)); // Call the function and pass the value
-             timerInstance.updateDisplay(Number(sliderValue)); // Call the function and pass the value
+        timerInstance.setDefaultTime(Number(sliderValue)); // Call the function and pass the value
+        timerInstance.updateDisplay(Number(sliderValue)); // Call the function and pass the value
     });
 
 });
