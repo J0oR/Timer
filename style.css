@@ -1,18 +1,20 @@
-*, *::after, *::before{
+*,
+*::after,
+*::before {
     /* border: 1px solid red; */
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
-body{
+body {
     height: 100vh;
     justify-content: center;
     align-items: center;
     display: flex;
 }
 
-.app-container{
+.app-container {
     width: 300px;
     display: flex;
     flex-direction: column;
@@ -23,7 +25,7 @@ body{
 
 /* restart-button */
 
-.restart-btn{
+.restart-btn {
     width: 30px;
     height: 30px;
     border-radius: 50px;
@@ -31,46 +33,58 @@ body{
 
 /* timer */
 
-.timer{
+.timer {
     border-radius: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    gap: 20px;
-}
-
-.inner{
-    width: 160px;
-    height: 160px;
-    box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
-    -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
-    -0.5px -0.5px 0px rgba(255, 255, 255, 1),
-    0.5px 0.5px 0px rgba(0, 0, 0, 0.15),
-    0px 12px 10px -10px rgba(0, 0, 0, 0.05);
-}
-
-.outer{
-    width: 200px;
-    height: 200px;
-    box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
-    -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
-    position: relative;
-}
-
-.play{
-    z-index: 100;
-    width: 30px;
-    height: 30px;
-    border-radius: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.inner {
+    width: 160px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
+        -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
+        -0.5px -0.5px 0px rgba(255, 255, 255, 1),
+        0.5px 0.5px 0px rgba(0, 0, 0, 0.15),
+        0px 12px 10px -10px rgba(0, 0, 0, 0.05);
+}
+
+.outer {
+    width: 200px;
+    height: 200px;
+    box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
+        -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
+    position: relative;
+}
+
+
+.timer-buttons-container{
+    display: flex;
+    justify-content: space-around;
+    width: 100px;
+}
+
+
+
+.timer-btn{
+    width: 30px;
+    height: 30px;
+    z-index: 10;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+
 /* progress bar */
 
-.progress-bar-svg{
+.progress-bar-svg {
     position: absolute;
     left: 0;
     top: 0;
@@ -79,7 +93,7 @@ body{
 }
 
 
-circle{
+circle {
     fill: none;
     stroke: cornflowerblue;
     stroke-width: 20px;
@@ -113,7 +127,7 @@ circle{
 
 /* time disply */
 
-.time-display{
+.time-display {
     font-size: 2.5rem;
 }
 
@@ -121,30 +135,41 @@ circle{
 
 /* + - buttons */
 
-.time-buttons{
-    width: 100%;
+.time-buttons {
     display: flex;
     justify-content: space-around;
+    position: relative;
+    width: 300px;
 }
 
-.less, .more {
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
+.less,
+.more {
+    /* width: 50px; */
+    /* height: 50px; */
     font-size: 2.5rem;
+}
+
+.less {
+    border-top-left-radius: 1rem;
+    /* Top-left corner rounded */
+    border-bottom-left-radius: 1rem;
+    /* Bottom-left corner rounded */
+}
+
+.more {
+    border-top-right-radius: 1rem;
+    /* Top-left corner rounded */
+    border-bottom-right-radius: 1rem;
+    /* Bottom-left corner rounded */
 }
 
 /* slider */
 
-#time-slider {
-    width: 300px; /* Make the slider span the full width */
-}
 
 
-
-.btn{
-    width: 50px;
-    height: 50px;
+.btn {
+    width: 30px;
+    height: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -154,6 +179,53 @@ circle{
     transition: all 0.1s ease-in-out;
 }
 
-.btn:active{
+.btn:active {
     box-shadow: none;
+}
+
+/*********** Baseline Styles ***********/
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 3rem;
+    /* Track height */
+    background: #add8e6;
+    /* Make sure track color is visible */
+    cursor: pointer;
+    outline: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+/*********** Track Styles ***********/
+input[type="range"]::-webkit-slider-runnable-track,
+input[type="range"]::-moz-range-track {
+    height: 100%;
+    background: #add8e6;
+    /* Base background color */
+    background-image: repeating-linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.2) calc(7.692% - 1px), /* Adjust for 13 intervals */
+    #05051a 7.692%
+);
+
+}
+
+/*********** Thumb Styles ***********/
+input[type="range"]::-webkit-slider-thumb,
+input[type="range"]::-moz-range-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px; /* Narrower thumb */
+    height: 4rem; /* Maintain the same height as before */
+    background-color: rgba(255, 255, 255, 1); /* Darker color similar to step lines */
+    border-radius: 0; /* Remove the roundness */
+    margin-top: -7px; /* Vertically centers thumb */
+    outline: 1px solid #808080;
+}
+
+input[type="range"]:focus::-webkit-slider-thumb,
+input[type="range"]:focus::-moz-range-thumb {
+    /* outline: 2px solid #808080; */
 }

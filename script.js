@@ -4,7 +4,7 @@ class Timer {
         this.progressCircle = progressCircle;
         this.clearInterval();
         this.sliderValueDisplay = sliderValueDisplay;
-        this.setDefaultTime(15); // Set default time once during initialization
+        this.setDefaultTime(30); // Set default time once during initialization
         this.updateDisplay();
     }
 
@@ -26,6 +26,7 @@ class Timer {
     }
 
     resetTimer() {
+        console.log("yo");
         this.setDefaultTime(this.startingMinutes); // Re
         this.updateDisplay();
         this.clearInterval();
@@ -39,10 +40,9 @@ class Timer {
 
     start() {
         if (this.interval) {
-            console.log("Timer is already running."); // Debugging message
-            return; // Prevent multiple intervals
+            // Prevent multiple intervals
+            return;
         }
-        console.log("Starting the timer..."); // Debugging message
         this.interval = setInterval(() => {
             if (this.minutes === 0 && this.seconds === 0) {
                 clearInterval(this.interval);
@@ -50,7 +50,7 @@ class Timer {
             } else {
                 this.decrementSeconds();
             }
-        }, 1000);
+        }, 10); // 1000
     }
 
     increase() {
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const decreaseButton = document.querySelector('.less');
     const timeDisplay = document.querySelector('.time-display');
     const progressCircle = document.querySelector('.progress-bar-svg > circle'); // Adjust this to match your SVG structure
-    const slider = document.querySelector('#time-slider'); // Select the slider
+    const slider = document.querySelector('.time-slider'); // Select the slider
     const sliderValueDisplay = document.querySelector('#slider-value'); // Element to display the slider value
 
 
