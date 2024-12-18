@@ -8,50 +8,66 @@
     <script src="script.js" defer></script>
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/de18f9756a.js" crossorigin="anonymous"></script>
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gruppo&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
     <div class="app-container">
 
-        
-        
 
-        
 
-        <div class="timer outer">
-            <div class="timer inner">
-                <div class="time-display"></div>
-                <div class="timer-buttons-container">
-                    <button class="timer-btn restart-btn">
-                        <i class="fa-solid fa-arrow-rotate-left"></i>
-                    </button>
-                    <button class="timer-btn play">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
+        <div class="timer-container">
+            <div class="timer outer">
+                <div class="timer inner">
+                    <div class="timer-buttons-container">
+                        <button class="timer-btn restart-btn">
+                            <i class="fa-solid fa-arrow-rotate-left"></i>
+                        </button>
+                        <button class="timer-btn play">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                    </div>
+    
                 </div>
-                
+                <svg viewBox="0 0 200 200" class="progress-bar-svg">
+                    <circle cx="100" cy="100" r="90"></circle>
+                </svg>
             </div>
-            <svg viewBox="0 0 200 200" class="progress-bar-svg">
-                <circle cx="100" cy="100" r="90"></circle>
-            </svg>
+    
+    
+            <div class="slider-wrapper">
+                <input type="range" class="time-slider" min="0" max="60" value="30" step="1">
+            </div>
         </div>
 
 
-        <div class="slider-wrapper">
-            <button class="slider-btn less">
-                <i class="fa-solid fa-minus"></i>
-            </button>
-            <input type="range" class="time-slider" min="0" max="60" value="30" step="1">
-            <button class="slider-btn more">
-                <i class="fa-solid fa-plus"></i>
-            </button>
+
+
+        <div class="log-container">
+            <h2 class="log-title">Work Done</h2>
+            <ul class="log-list">
+    
+            </ul>
         </div>
+
     </div>
 
-    
 
-    
+
+
+
 </body>
 
 </html>
+
+
+<!-- 
+TODO
+- add sound when timer stops
+- add logs when timer stops?
+- deploy on firebase
+-->
