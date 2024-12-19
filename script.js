@@ -1,46 +1,57 @@
 class Timer {
-    constructor(timeDisplay, progressCircle, slider, logList) {
+    constructor(timeDisplay, progressCircle, slider, logList, sound, playButton) {
         this.log = [];
         this.timeDisplay = timeDisplay;
         this.progressCircle = progressCircle;
-        this.clearInterval();
+        this.stopTimer();
         this.slider = slider;
         this.slider.value = this.startingMinutes;
-        this.setDefaultTime(30); // Set default time once during initialization
+        this.initializeTimer(30);
         this.updateDisplay();
         this.logList = logList;
+        this.sound = sound;
+        this.playButton = playButton;
+        this.intervalDuration = 10; // 1000
     }
 
-    // Set default time (in minutes) for starting and the timer
-    setDefaultTime(minutes) {
+    initializeTimer(minutes) {
+        this.stopTimer();
+        // reset progress bar
         this.progressCircle.style.strokeDashoffset = 24;
+        // reset time values
         this.startingMinutes = minutes;
         this.minutes = minutes;
         this.seconds = 0;
+        // update timer display
+        this.updateDisplay();
+        // reset play button
+
+        console.log(this.startingMinutes, this.minutes, this.seconds);
     }
 
-    clearInterval() {
+    setPlayIcon() {
+        if (this.playButton) {
+            this.playButton.innerHTML = '<i class="fa-solid fa-play"></i>';
+        }
+    }
+
+    setPauseIcon() {
+        if (this.playButton && this.minutes) {
+            this.playButton.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        }
+    }
+
+    stopTimer() {
         if (this.interval) {
             clearInterval(this.interval);
             this.interval = null;
         }
-    }
-
-    resetTimer() {
-        this.setDefaultTime(this.startingMinutes);
-        this.updateDisplay();
-        this.clearInterval();
-    }
-
-    pause() {
-        this.clearInterval();
-        this.setDefaultTime(this.startingMinutes);
-
+        this.setPlayIcon();
     }
 
     start() {
-        if (this.interval) {
-            // Prevent multiple intervals
+        if (this.interval || (this.minutes === 0 && this.seconds === 0)) {
+            // Prevent starting if the timer has already finished or is running
             return;
         }
         this.interval = setInterval(() => {
@@ -50,28 +61,26 @@ class Timer {
             } else {
                 this.decrementSeconds();
             }
-        }, 10); // 1000
+        }, this.intervalDuration); // 1000
     }
 
     changeTime(change) {
         this.startingMinutes = Math.max(0, Math.min(60, this.startingMinutes + change));
-        this.setDefaultTime(this.startingMinutes);
-        this.updateDisplay();
+        this.initializeTimer(this.startingMinutes);
         this.slider.value = this.startingMinutes;
-        if (this.startingMinutes === 0) this.resetTimer();
     }
 
     decrementSeconds() {
         if (this.seconds === 0 && this.minutes > 0) {
             this.minutes--;
             this.seconds = 59;
-        } 
+        }
         else {
             this.seconds--;
         }
         this.updateDisplay();
         this.updateProgressCircle(); // Update the progress circle every second
-        if (this.seconds === 0 && this.minutes === 0){
+        if (this.seconds === 0 && this.minutes === 0) {
             this.addToLog();
         }
 
@@ -83,27 +92,37 @@ class Timer {
         this.timeDisplay.innerHTML = `${formattedMinutes}:${formattedSeconds}`;
     }
 
-    addToLog(){
-        if (this.startingMinutes > 0){
-            const formattedMinutes = String(this.startingMinutes).padStart(2, '0');
-            const formattedSeconds = String(this.seconds).padStart(2, '0');
-            this.log.push(`${formattedMinutes}:${formattedSeconds}`);
-            const lastEntry = document.createElement('li');
-            lastEntry.classList.add('log-entry');
-            lastEntry.innerHTML = this.log[this.log.length - 1];
-            this.logList.appendChild(lastEntry);
+    addToLog() {
+        if (this.startingMinutes > 0) {
+            const now = new Date();
+            const timestamp = now.toLocaleTimeString();
+            const minutesFormatted = String(this.startingMinutes).padStart(2, '0');
+            const logEntry = `${minutesFormatted}:00 ended at ${timestamp}`;
+
+            if (!this.log.includes(logEntry)) {
+                this.log.push(logEntry);
+                const lastEntry = document.createElement('li');
+                lastEntry.classList.add('log-entry');
+                lastEntry.textContent = logEntry;
+                this.logList.appendChild(lastEntry);
+                this.sound.currentTime = 0
+                this.sound.play();
+            }
+            this.setPlayIcon();
         }
-        
+
     }
 
     updateProgressCircle() {
+        const FULL_DASH_OFFSET = 570;
+        const DASH_REDUCTION = 546;
         const totalTimeInSeconds = this.startingMinutes * 60;
         // Calculate remaining time in seconds
         const remainingTimeInSeconds = this.minutes * 60 + this.seconds;
         // Calculate the percentage of the remaining time
         const percentageRemaining = remainingTimeInSeconds * 100 / totalTimeInSeconds;
         // The stroke-dashoffset value is proportional to the percentage remaining
-        const dashOffset = 570 - (546 * percentageRemaining / 100);
+        const dashOffset = FULL_DASH_OFFSET - (DASH_REDUCTION * percentageRemaining / 100);
         // Update the stroke-dashoffset of the circle (adjust for your specific SVG structure)
         this.progressCircle.style.strokeDashoffset = dashOffset;
     }
@@ -143,10 +162,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const progressCircle = document.querySelector('.progress-bar-svg > circle');
     const slider = document.querySelector('.time-slider');
     const logList = document.querySelector('.log-list');
+    const sound = new Audio('./doorbell.wav');
+    sound.muted = false;
+    sound.preload = 'auto';
 
-    const timerInstance = new Timer(timeDisplay, progressCircle, slider, logList);
+    const timerInstance = new Timer(timeDisplay, progressCircle, slider, logList, sound, playButton);
 
-    /*  --------------- MOUSEDOWN INCREASING/DECREASING ---------------- */
+    /*  --------------- BUTTONS MOUSEDOWN SLIDER INCREASING/DECREASING ---------------- */
 
     let intervalId = null;
 
@@ -164,24 +186,39 @@ document.addEventListener("DOMContentLoaded", function () {
     setupButton(increaseButton, () => timerInstance.changeTime(+1));
     setupButton(decreaseButton, () => timerInstance.changeTime(-1));
 
-    /*  --------------- SLIDER ---------------- */
+    /*  --------------- THUMB SLIDER INPUT ---------------- */
 
     slider.addEventListener('input', () => {
-        timerInstance.clearInterval();
-        timerInstance.setDefaultTime(Number(slider.value)); // Call the function and pass the value
-        timerInstance.updateDisplay(Number(slider.value)); // Call the function and pass the value
+        timerInstance.initializeTimer(Number(slider.value));
     });
 
     /*  --------------- PLAY/RESTART/ANIMATION ---------------- */
 
-    playButton.addEventListener('click', () => timerInstance.start())
-
-    restartButton.addEventListener('click', () => {
-        timerInstance.resetTimer();
-        circle.classList.add("animated");
+    playButton.addEventListener('click', () => {
+        if (timerInstance.interval) {
+            // Timer is running; pause it
+            timerInstance.stopTimer();
+            timerInstance.setPlayIcon();
+        } else {
+            // Timer is paused or stopped; start it
+            timerInstance.start();
+            timerInstance.setPauseIcon();
+        }
     })
 
-    circle.addEventListener('animationend', () => circle.classList.remove("animated"));
+    function animateCircle() {
+        progressCircle.classList.add("animated");
+        progressCircle.addEventListener('animationend', () =>
+            progressCircle.classList.remove("animated"), { once: true }
+        );
+    }
+
+    restartButton.addEventListener('click', () => {
+        timerInstance.initializeTimer(timerInstance.startingMinutes);
+        timerInstance.setPlayIcon();
+        animateCircle();
+    })
+
 
 });
 
