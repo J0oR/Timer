@@ -1,0 +1,88 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/script.js" defer></script>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/de18f9756a.js" crossorigin="anonymous"></script>
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gruppo&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+
+
+        <div class="timer-container">
+            <div class="outer">
+                <div class="inner">
+                    <div class="timer-buttons-container">
+                        <button class="restart-btn">
+                            <i class="fa-solid fa-arrow-rotate-left"></i>
+                        </button>
+                        <button class="play-btn">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+                <svg viewBox="0 0 200 200" class="progress-bar-svg">
+                    <circle cx="100" cy="100" r="90"></circle>
+                </svg>
+            </div>
+
+
+            <div class="slider-wrapper">
+                <input type="range" class="time-slider" min="0" max="60" value="0" step="1">
+            </div>
+        </div>
+
+
+
+
+        <div class="log-container">
+            <h2 class="log-title">Work Done</h2>
+            <ul class="log-list"></ul>
+        </div>
+
+    </div>
+
+
+
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyC-wyBabz1eLXtarRE3pAmEFb1_IzlfLKU",
+          authDomain: "timer-09876.firebaseapp.com",
+          projectId: "timer-09876",
+          storageBucket: "timer-09876.firebasestorage.app",
+          messagingSenderId: "440357167556",
+          appId: "1:440357167556:web:b34729468aaeebc514c491"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+      </script>
+</body>
+
+</html>
+
+
+<!-- 
+TODO
+- deploy on firebase
+- update readme links
+- decide palette
+-->
