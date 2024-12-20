@@ -13,7 +13,7 @@ Additionally, there is a log of all completed sessions.
 
 ###
 #### Application layout
-![alt text](<Screenshot 2024-12-20 alle 11.23.14.png>)
+![alt text](</assets/layout.png>)
 
 
 #### Try it
