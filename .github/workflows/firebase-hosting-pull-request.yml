@@ -16,5 +16,5 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_TIMER_09876 }}
-          projectId: timer-09876
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASICJS_TIMER }}
+          projectId: basicjs-timer
