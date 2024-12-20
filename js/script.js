@@ -5,8 +5,8 @@ class Timer {
         this.progressCircle = progressCircle;
         this.stopTimer();
         this.slider = slider;
+        this.initializeTimer(0);
         this.slider.value = this.startingMinutes;
-        this.initializeTimer(30);
         this.updateDisplay();
         this.logList = logList;
         this.sound = sound;
@@ -24,9 +24,6 @@ class Timer {
         this.seconds = 0;
         // update timer display
         this.updateDisplay();
-        // reset play button
-
-        console.log(this.startingMinutes, this.minutes, this.seconds);
     }
 
     setPlayIcon() {
@@ -95,19 +92,18 @@ class Timer {
     addToLog() {
         if (this.startingMinutes > 0) {
             const now = new Date();
-            const timestamp = now.toLocaleTimeString();
-            const minutesFormatted = String(this.startingMinutes).padStart(2, '0');
-            const logEntry = `${minutesFormatted}:00 ended at ${timestamp}`;
+            const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-            if (!this.log.includes(logEntry)) {
-                this.log.push(logEntry);
-                const lastEntry = document.createElement('li');
-                lastEntry.classList.add('log-entry');
-                lastEntry.textContent = logEntry;
-                this.logList.appendChild(lastEntry);
-                this.sound.currentTime = 0
-                this.sound.play();
-            }
+            const minutesFormatted = String(this.startingMinutes).padStart(2, '0');
+            const logEntry = `${minutesFormatted} m session ended at ${timestamp}`;
+
+            this.log.push(logEntry);
+            const lastEntry = document.createElement('li');
+            lastEntry.classList.add('log-entry');
+            lastEntry.textContent = logEntry;
+            this.logList.appendChild(lastEntry);
+            this.sound.currentTime = 0
+            this.sound.play();
             this.setPlayIcon();
         }
 
@@ -162,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const progressCircle = document.querySelector('.progress-bar-svg > circle');
     const slider = document.querySelector('.time-slider');
     const logList = document.querySelector('.log-list');
-    const sound = new Audio('./doorbell.wav');
+    const sound = new Audio('./assets/doorbell.wav');
     sound.muted = false;
     sound.preload = 'auto';
 

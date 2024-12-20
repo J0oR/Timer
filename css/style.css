@@ -1,7 +1,7 @@
 *,
 *::after,
 *::before {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     box-sizing: border-box;
     padding: 0;
     margin: 0;
@@ -12,7 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     display: flex;
-    background-color: #b2ebf2;
+    background-color: #406C73;
     font-family: "Gruppo", serif;
     font-weight: 600;
     font-style: normal;
@@ -48,6 +48,7 @@ body {
 }
 
 .log-container{
+    width: 300px;
     height: 400px;
     display: flex;
     flex-direction: column;
@@ -81,7 +82,7 @@ body {
 }
 
 .inner {
-    background-color: #b2ebf2;
+    background-color: 406C73;
     width: 240px;
     height: 240px;
     display: flex;
@@ -140,7 +141,7 @@ body {
 
 circle {
     fill: none;
-    stroke: cornflowerblue;
+    stroke: #B3EAF2;
     stroke-width: 20px;
     stroke-linecap: round;
     stroke-dasharray: 570;
@@ -285,12 +286,18 @@ ul{
     list-style-type: none;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
 }
 
 .log-entry{
-    border-bottom: 1px solid black;
+    /* border-bottom: 1px solid black; */
     text-align: right;
     /* width: 50px; */
     padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+
+button{
+    background-color: #DEF2B3;
 }
