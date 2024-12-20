@@ -141,19 +141,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const sliderWrapper = document.querySelector('.slider-wrapper');
 
     const decreaseButton = document.createElement('button');
-    decreaseButton.className = 'slider-btn less';
+    decreaseButton.className = 'less';
     decreaseButton.innerHTML = '<i class="fa-solid fa-minus"></i>';
     sliderWrapper.insertBefore(decreaseButton, sliderWrapper.firstChild);
 
     const increaseButton = document.createElement('button');
-    increaseButton.className = 'slider-btn more';
+    increaseButton.className = 'more';
     increaseButton.innerHTML = '<i class="fa-solid fa-plus"></i>';
     sliderWrapper.append(increaseButton);
 
     /* --------------- SELECT EVERYTHING ELSE AND CREATE NEW INSTANCE --------------- */
 
     const circle = document.querySelector('circle');
-    const playButton = document.querySelector('.play');
+    const playButton = document.querySelector('.play-btn');
     const restartButton = document.querySelector('.restart-btn');
     const progressCircle = document.querySelector('.progress-bar-svg > circle');
     const slider = document.querySelector('.time-slider');

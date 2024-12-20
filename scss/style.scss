@@ -1,0 +1,281 @@
+*,
+*::after,
+*::before {
+    // border: 1px solid red;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+/********* Mixins & variables ********/
+
+$primary-color: #406C73;
+$font-stack: "Gruppo", serif;
+
+@mixin flex($direction, $align, $justify){
+    display: flex;
+    flex-direction: $direction;
+    align-items: $align;
+    justify-content: $justify;
+}
+
+/********* App general layout *******/
+
+body {
+    height: 100vh;
+    @include flex(row, center, center);
+    background-color: $primary-color;
+    font-family: $font-stack;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.app-container {
+    @include flex(row, center, center);
+    width: 100%;
+    height: 100%;
+
+    @media (max-width: 1024px) and (min-width: 300px) {
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .timer-container {
+        width: 300px;
+        height: 400px;
+        @include flex(column, center, space-between);
+        justify-self: center;
+        align-items: center;
+        margin: 0 auto;
+        @media (max-width: 1024px) and (min-width: 300px) {
+            margin-top: 50px;
+            gap: 50px;
+        }
+    }
+
+    .log-container {
+        width: 300px;
+        height: 400px;
+        @include flex(column, center, flex-start);
+        justify-self: center;
+        right: 10%;
+        position: absolute;
+
+        @media (max-width: 1024px) and (min-width: 300px) {
+            position: unset;
+        }
+    }
+
+}
+
+/********* Timer Circle ********/
+
+%timer-circle {
+    border-radius: 100%;
+    @include flex(row, center, center);
+}
+
+.outer {
+    @extend %timer-circle;
+    background-color: #85b4b0;
+    width: 300px;
+    height: 300px;
+    box-shadow: 5px 10px 15px 2px rgba(0, 0, 0, 0.35);
+    position: relative;
+}
+
+.inner {
+    @extend %timer-circle;
+    background-color: 406C73;
+    width: 240px;
+    height: 240px;
+    @include flex(column, center, center);
+    box-shadow: inset 5px 10px 15px 2px rgba(0, 0, 0, 0.35);
+
+    .time-display {
+        margin-top: 25%;
+        font-size: 3.5rem;
+    }
+}
+
+/********** Timer Buttons ************/
+
+%btn-base-style {
+    font-size: 1.2rem;
+    background-color: #DEF2B3;
+    @include flex(row, center, center);
+    border: none;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+
+    &:active {
+        box-shadow: none;
+        font-size: 1.1rem;
+    }
+
+    &:hover {
+        font-size: 1.1rem;
+    }
+}
+
+.timer-buttons-container {
+    margin-top: 20px;
+    display: flex;
+    @include flex(row, center, space-around);
+    width: 150px;
+
+    .restart-btn,
+    .play-btn {
+        @extend %btn-base-style;
+        width: 40px;
+        height: 40px;
+        z-index: 10;
+        border-radius: 50px;
+        transition: all 0.1 ease-in-out;
+        box-shadow: rgba(0, 0, 0, 0.35) 5px 5px 5px -2px;
+    }
+}
+
+/******** Progress Bar *******/
+
+.progress-bar-svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 300px;
+    height: 300px;
+
+    circle {
+        fill: none;
+        stroke: #B3EAF2;
+        stroke-width: 20px;
+        stroke-linecap: round;
+        stroke-dasharray: 570;
+        stroke-dashoffset: 24;
+    }
+
+    .animated {
+        animation: anim 0.5s ease-in-out;
+    }
+}
+
+@keyframes anim {
+    100% {
+        stroke-dashoffset: 0;
+    }
+
+    0% {
+        stroke-dashoffset: 570;
+    }
+}
+
+/*********** Slider Baseline Styles ***********/
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 48px;
+    cursor: pointer;
+    outline: none;
+    background: #add8e6;
+    box-shadow: rgba(0, 0, 0, 0.35) 5px 10px 5px -2px;
+}
+
+/*********** Slider Track Styles ***********/
+
+@mixin range-base-slider {
+    height: 30px;
+    background-image: repeating-linear-gradient(to right, #add8e6,
+            #add8e6 calc((100% / 13) - 1px), #05051a calc(100% / 13));
+    background-size: 226px;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    @include range-base-slider;
+}
+
+input[type="range"]::-moz-range-track {
+    @include range-base-slider;
+}
+
+/*********** Thumb Styles ***********/
+
+@mixin thumb-base-slider {
+    width: 20px;
+    height: 4rem;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 15px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 5px 5px 5px -2px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    position: relative;
+    top: -16px;
+    @include thumb-base-slider;
+
+    &:active {
+        box-shadow: none;
+    }
+}
+
+input[type="range"]::-moz-range-thumb {
+    @include thumb-base-slider;
+
+    &:active {
+        box-shadow: none;
+    }
+}
+
+/***** Slider + - buttons ******/
+
+@mixin slider-btn($top-right, $down-right, $down-left, $top-left, $color, $x, $y, $blur, $spread){
+    width: 50px;
+    height: 3rem;
+    border-top-right-radius: $top-right;
+    border-bottom-right-radius: $down-right;
+    border-bottom-left-radius: $down-left;
+    border-top-left-radius: $top-left;
+    box-shadow: $color $x $y $blur $spread;
+}
+
+.slider-wrapper {
+    display: flex;
+    position: relative;
+    width: 300px;
+
+    .less {
+        @extend %btn-base-style;
+        @include slider-btn(0, 0, 1rem, 1rem, rgba(0, 0, 0, 0.35), 10px, 10px, 5px, -2px)
+    }
+
+    .more {
+        @extend %btn-base-style;
+        @include slider-btn(1rem, 1rem, 0, 0, rgba(0, 0, 0, 0.35), 0px, 10px, 5px, -2px)
+    }
+}
+
+/******** Log List ******/
+
+.log-title {
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+    @include flex(column, flex-start, flex-start);
+    width: 100%;
+
+    .log-entry {
+        /* border-bottom: 1px solid black; */
+        text-align: right;
+        /* width: 50px; */
+        padding-bottom: 5px;
+        padding-top: 5px;
+    }
+}
