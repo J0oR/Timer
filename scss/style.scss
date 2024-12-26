@@ -1,7 +1,7 @@
 *,
 *::after,
 *::before {
-     border: 1px solid red;
+    // border: 1px solid red;
     box-sizing: border-box;
     padding: 0;
     margin: 0;
@@ -9,7 +9,12 @@
 
 /********* Mixins & variables ********/
 
-$primary-color: #406C73;
+$primary-color: #6BB7BF;
+$secondary-color: #8C391B;
+$input-color: #C4EEF2;
+$btn-color: #F2B885;
+$btn-font-color: #8C391B;
+$font-color: #8C391B;
 $font-stack: "Gruppo", serif;
 
 @mixin flex($direction, $align, $justify){
@@ -25,6 +30,7 @@ body {
     height: 100vh;
     @include flex(row, center, center);
     background-color: $primary-color;
+    color: $font-color;
     font-family: $font-stack;
     font-weight: 600;
     font-style: normal;
@@ -77,7 +83,8 @@ body {
 
 .outer {
     @extend %timer-circle;
-    background-color: #85b4b0;
+    background-color: $primary-color;
+    background-color: #C4EEF2;
     width: 300px;
     height: 300px;
     box-shadow: 5px 10px 15px 2px rgba(0, 0, 0, 0.35);
@@ -86,11 +93,11 @@ body {
 
 .inner {
     @extend %timer-circle;
-    background-color: 406C73;
+    background-color: #C4EEF2;
     width: 240px;
     height: 240px;
     @include flex(column, center, center);
-    box-shadow: inset 5px 10px 15px 2px rgba(0, 0, 0, 0.35);
+    //box-shadow: inset 5px 10px 15px -2px rgba(0, 0, 0, 0.35);
 
     .time-display {
         margin-top: 25%;
@@ -102,19 +109,19 @@ body {
 
 %btn-base-style {
     font-size: 1.2rem;
-    background-color: #DEF2B3;
+    background-color: $btn-color;
+    color: $btn-font-color;
     @include flex(row, center, center);
     border: none;
     cursor: pointer;
-    transition: all 0.1s ease-in-out;
+    transition: all 0.3s ease-in-out;
 
     &:active {
         box-shadow: none;
-        font-size: 1.1rem;
     }
 
     &:hover {
-        font-size: 1.1rem;
+        font-size: 1.4rem;
     }
 }
 
@@ -127,8 +134,8 @@ body {
     .restart-btn,
     .play-btn {
         @extend %btn-base-style;
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         z-index: 10;
         border-radius: 50px;
         transition: all 0.1 ease-in-out;
@@ -147,10 +154,10 @@ body {
 
     circle {
         fill: none;
-        stroke: #B3EAF2;
-        stroke-width: 20px;
+        stroke: $secondary-color;
+        stroke-width: 10px;
         stroke-linecap: round;
-        stroke-dasharray: 570;
+        stroke-dasharray: 579;
         stroke-dashoffset: 24;
     }
 
@@ -165,7 +172,7 @@ body {
     }
 
     0% {
-        stroke-dashoffset: 570;
+        stroke-dashoffset: 579;
     }
 }
 
@@ -178,7 +185,7 @@ input[type="range"] {
     height: 48px;
     cursor: pointer;
     outline: none;
-    background: #add8e6;
+    background: $input-color;
     box-shadow: rgba(0, 0, 0, 0.35) 5px 10px 5px -2px;
 }
 
@@ -186,8 +193,8 @@ input[type="range"] {
 
 @mixin range-base-slider {
     height: 30px;
-    background-image: repeating-linear-gradient(to right, #add8e6,
-            #add8e6 calc((100% / 13) - 1px), #05051a calc(100% / 13));
+    background-image: repeating-linear-gradient(to right, $input-color,
+            $input-color calc((100% / 13) - 1px), #05051a calc(100% / 13));
     background-size: 226px;
 }
 
@@ -204,7 +211,7 @@ input[type="range"]::-moz-range-track {
 @mixin thumb-base-slider {
     width: 20px;
     height: 4rem;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: #D9734E;
     border-radius: 15px;
     border: none;
     box-shadow: rgba(0, 0, 0, 0.35) 5px 5px 5px -2px;
@@ -248,12 +255,13 @@ input[type="range"]::-moz-range-thumb {
 
     .less {
         @extend %btn-base-style;
-        @include slider-btn(0, 0, 1rem, 1rem, rgba(0, 0, 0, 0.35), 10px, 10px, 5px, -2px)
+        @include slider-btn(0, 0, 1rem, 1rem, rgba(0, 0, 0, 0.35), 10px, 10px, 5px, -2px);
     }
 
     .more {
         @extend %btn-base-style;
-        @include slider-btn(1rem, 1rem, 0, 0, rgba(0, 0, 0, 0.35), 0px, 10px, 5px, -2px)
+        @include slider-btn(1rem, 1rem, 0, 0, rgba(0, 0, 0, 0.35), 0px, 10px, 5px, -2px);
+
     }
 }
 
@@ -264,6 +272,7 @@ input[type="range"]::-moz-range-thumb {
     padding-bottom: 5px;
     margin-bottom: 5px;
     width: 100%;
+    font-size: 1.6rem;
 }
 
 ul {
@@ -277,5 +286,6 @@ ul {
         /* width: 50px; */
         padding-bottom: 5px;
         padding-top: 5px;
+        font-size: 1.4rem;
     }
 }

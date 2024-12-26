@@ -17,13 +17,18 @@ class Timer {
     initializeTimer(minutes) {
         this.stopTimer();
         // reset progress bar
-        this.progressCircle.style.strokeDashoffset = 24;
+        // this.progressCircle.style.strokeDashoffset = 24;
         // reset time values
         this.startingMinutes = minutes;
         this.minutes = minutes;
         this.seconds = 0;
         // update timer display
         this.updateDisplay();
+        if (this.startingMinutes === 0) {
+            this.progressCircle.style.strokeDashoffset = 579;
+            this.progressCircle.classList.remove("animated");
+
+        }
     }
 
     setPlayIcon() {
@@ -110,8 +115,9 @@ class Timer {
     }
 
     updateProgressCircle() {
-        const FULL_DASH_OFFSET = 570;
-        const DASH_REDUCTION = 546;
+        const FULL_DASH_OFFSET = 579;
+        //const DASH_REDUCTION = 546;
+        const DASH_REDUCTION = 555;
         const totalTimeInSeconds = this.startingMinutes * 60;
         // Calculate remaining time in seconds
         const remainingTimeInSeconds = this.minutes * 60 + this.seconds;
@@ -179,13 +185,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Setup buttons with their respective actions
-    setupButton(increaseButton, () => timerInstance.changeTime(+1));
-    setupButton(decreaseButton, () => timerInstance.changeTime(-1));
+    setupButton(increaseButton, () => {
+        timerInstance.changeTime(+1);
+        animateCircle();
+    });
+    setupButton(decreaseButton, () => {
+        timerInstance.changeTime(-1)
+        animateCircle();
+    });
 
     /*  --------------- THUMB SLIDER INPUT ---------------- */
 
+
     slider.addEventListener('input', () => {
         timerInstance.initializeTimer(Number(slider.value));
+    });
+
+
+
+    // Listen for release events
+    slider.addEventListener('mouseup', () => {
+        if (slider.value != 0) {
+            animateCircle();
+        }
     });
 
     /*  --------------- PLAY/RESTART/ANIMATION ---------------- */
@@ -203,10 +225,15 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 
     function animateCircle() {
-        progressCircle.classList.add("animated");
-        progressCircle.addEventListener('animationend', () =>
-            progressCircle.classList.remove("animated"), { once: true }
-        );
+        if (slider.value != 0) {
+            progressCircle.classList.add("animated");
+            progressCircle.addEventListener('animationend', () => {
+
+                progressCircle.classList.remove("animated")
+                progressCircle.style.strokeDashoffset = 24;
+
+            }, { once: true })
+        };
     }
 
     restartButton.addEventListener('click', () => {
