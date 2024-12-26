@@ -69,3 +69,7 @@ node_modules/
 .dataconnect
 
 .vscode/
+.firebaserc
+.firebase/
+.github/
+firebase.json
