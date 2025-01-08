@@ -322,8 +322,23 @@ ul {
 }
 
 .test-info-wrapper {
-    @include flex(row, center, space-around);
+    @include flex(row, center, center);
+    gap: 20px;
     width: 100%;
+
+    .test-info-icon{
+        @extend %btn-base-style;
+
+        margin-top: 4px;
+        width: 23px;
+        height: 23px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        border: none;
+        color: $font-color;
+        background-color: $primary-color;
+        border: 3px solid $font-color;
+    }
 }
 
 .test-btn {
