@@ -137,8 +137,6 @@ class Timer {
         // Update the stroke-dashoffset of the circle (adjust for your specific SVG structure)
         this.progressCircle.style.strokeDashoffset = dashOffset;
     }
-
-
 }
 
 
@@ -286,7 +284,3 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
-
-
-
-
