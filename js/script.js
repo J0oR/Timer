@@ -1,5 +1,5 @@
 class Timer {
-    constructor(timeDisplay, progressCircle, slider, logList, sound, playButton) {
+    constructor(timeDisplay, progressCircle, slider, logList, sound, playButton, testHeader) {
         this.log = [];
         this.timeDisplay = timeDisplay;
         this.progressCircle = progressCircle;
@@ -11,7 +11,16 @@ class Timer {
         this.logList = logList;
         this.sound = sound;
         this.playButton = playButton;
-        this.intervalDuration = 10; // 1000
+        this.intervalDuration = 1000; // 1000
+        this.testMode = false;
+        this.testHeader = testHeader;
+    }
+
+    changeMode(){
+        //this.testMode = !this.testMode;
+        this.testMode = !this.testMode;
+        this.intervalDuration = this.testMode ? 10 : 1000;
+        this.testHeader.innerHTML = this.testMode ? "Test Mode On" : "Test Mode Off";
     }
 
     initializeTimer(minutes) {
@@ -106,7 +115,7 @@ class Timer {
             const lastEntry = document.createElement('li');
             lastEntry.classList.add('log-entry');
             lastEntry.textContent = logEntry;
-            this.logList.appendChild(lastEntry);
+            this.logList.prepend(lastEntry);
             this.sound.currentTime = 0
             this.sound.play();
             this.setPlayIcon();
@@ -168,7 +177,13 @@ document.addEventListener("DOMContentLoaded", function () {
     sound.muted = false;
     sound.preload = 'auto';
 
-    const timerInstance = new Timer(timeDisplay, progressCircle, slider, logList, sound, playButton);
+    const testHeader = document.querySelector('.test-header');
+    const testButton = document.querySelector('.test-btn');
+    const testInfoIcon = document.querySelector('.test-info-icon');
+    const testInfo = document.querySelector('.test-info');
+    testInfo.style.display = 'none';
+
+    const timerInstance = new Timer(timeDisplay, progressCircle, slider, logList, sound, playButton, testHeader);
 
     /*  --------------- BUTTONS MOUSEDOWN SLIDER INCREASING/DECREASING ---------------- */
 
@@ -242,6 +257,33 @@ document.addEventListener("DOMContentLoaded", function () {
         animateCircle();
     })
 
+
+      /*  --------------- TEST ---------------- */
+
+      testButton.addEventListener('click', () => {
+        timerInstance.changeMode();
+        timerInstance.initializeTimer(timerInstance.startingMinutes);
+        timerInstance.setPlayIcon();
+        animateCircle();
+      })
+
+      // Add event listeners to the button
+      testInfoIcon.addEventListener('mouseover', () => {
+        testInfo.style.display = 'block'; // Show the testInfo on hover
+    });
+
+    testInfoIcon.addEventListener('mouseout', () => {
+        testInfo.style.display = 'none'; // Hide the testInfo when hover stops
+    });
+
+    // Add event listener for click (mobile)
+    testInfoIcon.addEventListener('click', () => {
+        if (testInfo.style.display === 'block') {
+            testInfo.style.display = 'none'; // Hide if visible
+        } else {
+            testInfo.style.display = 'block'; // Show if hidden
+        }
+    });
 
 });
 

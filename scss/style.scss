@@ -17,7 +17,7 @@ $btn-font-color: #8C391B;
 $font-color: #8C391B;
 $font-stack: "Gruppo", serif;
 
-@mixin flex($direction, $align, $justify){
+@mixin flex($direction, $align, $justify) {
     display: flex;
     flex-direction: $direction;
     align-items: $align;
@@ -27,7 +27,6 @@ $font-stack: "Gruppo", serif;
 /********* App general layout *******/
 
 body {
-    height: 100vh;
     @include flex(row, center, center);
     background-color: $primary-color;
     color: $font-color;
@@ -36,14 +35,23 @@ body {
     font-style: normal;
 }
 
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Edge */
+}
+
 .app-container {
-    @include flex(row, center, center);
+    @include flex(row, flex-start, center);
     width: 100%;
     height: 100%;
+    gap: 50px;
+    margin-top: 100px;
 
     @media (max-width: 1024px) and (min-width: 300px) {
-        flex-direction: column;
+        @include flex(column, center, center);
         gap: 50px;
+        margin-top: 50px !important;
+        margin-bottom: 50px !important;
+        height: fit-content;
     }
 
     .timer-container {
@@ -52,23 +60,30 @@ body {
         @include flex(column, center, space-between);
         justify-self: center;
         align-items: center;
-        margin: 0 auto;
+
+        // margin: 0 auto;
         @media (max-width: 1024px) and (min-width: 300px) {
-            margin-top: 50px;
             gap: 50px;
         }
     }
 
     .log-container {
         width: 300px;
-        height: 400px;
+        height: fit-content;
+        border-radius: 12px;
+        padding: 20px;
+        max-height: 200px;
+        overflow: scroll;
+        scrollbar-width: none;        
+        background-color: rgb(126, 220, 215);
+        box-shadow: rgba(0, 0, 0, 0.35) 5px 10px 5px -2px;
+
         @include flex(column, center, flex-start);
-        justify-self: center;
-        right: 10%;
-        position: absolute;
 
         @media (max-width: 1024px) and (min-width: 300px) {
             position: unset;
+            height: fit-content;
+            align-self: center;
         }
     }
 
@@ -118,10 +133,11 @@ body {
 
     &:active {
         box-shadow: none;
+        font-size: 1.1rem;
     }
 
     &:hover {
-        font-size: 1.4rem;
+        background-color: #fccea5;
     }
 }
 
@@ -238,7 +254,7 @@ input[type="range"]::-moz-range-thumb {
 
 /***** Slider + - buttons ******/
 
-@mixin slider-btn($top-right, $down-right, $down-left, $top-left, $color, $x, $y, $blur, $spread){
+@mixin slider-btn($top-right, $down-right, $down-left, $top-left, $color, $x, $y, $blur, $spread) {
     width: 50px;
     height: 3rem;
     border-top-right-radius: $top-right;
@@ -268,7 +284,7 @@ input[type="range"]::-moz-range-thumb {
 /******** Log List ******/
 
 .log-title {
-    border-bottom: 1px solid black;
+    //border-bottom: 1px solid black;
     padding-bottom: 5px;
     margin-bottom: 5px;
     width: 100%;
@@ -286,6 +302,49 @@ ul {
         /* width: 50px; */
         padding-bottom: 5px;
         padding-top: 5px;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
     }
+}
+
+
+/******** Test mode ******/
+
+.mode-container {
+    width: 300px;
+    height: 400px;
+    @include flex(column, center, flex-start);
+    gap: 20px;
+    position: relative;
+
+    @media (max-width: 1024px) and (min-width: 300px) {
+        height: 100px;
+    }
+}
+
+.test-info-wrapper {
+    @include flex(row, center, space-around);
+    width: 100%;
+}
+
+.test-btn {
+    @extend %btn-base-style;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    border-radius: 50px;
+    border-radius: 50px;
+    transition: all 0.1 ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.35) 5px 5px 5px -2px;
+}
+
+.test-info {
+    width: 100%;
+    background-color: rgb(126, 220, 215);
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.35) 5px 5px 5px -2px;
+    @include flex(row, center, center);
+    text-align: center;
+    padding: 10px;
+    position: absolute;
+    top: 50px;
 }
